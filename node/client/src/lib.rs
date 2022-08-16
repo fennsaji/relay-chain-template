@@ -174,7 +174,7 @@ pub trait ExecuteWithClient {
 
 /// A handle to a Polkadot client instance.
 ///
-/// The Polkadot service supports multiple different runtimes (Westend, Polkadot itself, etc). As each runtime has a
+/// The Polkadot service supports multiple different runtimes Polkadot. As each runtime has a
 /// specialized client, we need to hide them behind a trait. This is this trait.
 ///
 /// When wanting to work with the inner client, you need to use `execute_with`.

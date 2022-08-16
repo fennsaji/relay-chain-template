@@ -126,9 +126,6 @@ release_priority = Changelog.highest_priority_for_changes(client_changes)
 rustc_stable = ENV['RUSTC_STABLE']
 rustc_nightly = ENV['RUSTC_NIGHTLY']
 polkadot_runtime = get_runtime('polkadot', polkadot_path)
-kusama_runtime = get_runtime('kusama', polkadot_path)
-westend_runtime = get_runtime('westend', polkadot_path)
-rococo_runtime = get_runtime('rococo', polkadot_path)
 
 # These json files should have been downloaded as part of the build-runtimes
 # github action
@@ -136,12 +133,6 @@ rococo_runtime = get_runtime('rococo', polkadot_path)
 polkadot_json = JSON.parse(
   File.read(
     "#{ENV['GITHUB_WORKSPACE']}/polkadot-srtool-json/polkadot_srtool_output.json"
-  )
-)
-
-kusama_json = JSON.parse(
-  File.read(
-    "#{ENV['GITHUB_WORKSPACE']}/kusama-srtool-json/kusama_srtool_output.json"
   )
 )
 

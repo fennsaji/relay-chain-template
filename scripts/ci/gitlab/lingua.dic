@@ -132,7 +132,6 @@ keystore/MS
 Kovan
 KSM/S
 Kubernetes/MS
-kusama/S
 KYC/M
 lib
 libp2p
@@ -319,7 +318,6 @@ wakeups
 warming/S
 wasm/M
 wasmtime
-Westend/M
 wildcard/MS
 WND/S
 Wococo
