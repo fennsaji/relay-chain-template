@@ -28,20 +28,17 @@ sp-consensus-babe = { git = "https://github.com/paritytech/substrate", branch = 
 sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 sp-offchain = { package = "sp-offchain", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 sp-block-builder = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
-sp-mmr-primitives = { git = "https://github.com/paritytech/substrate", default-features = false , branch = "polkadot-v0.9.26" }
+sp-mmr-primitives = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.26" }
 
 sc-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 sc-executor = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
-sc-service = { git = "https://github.com/paritytech/substrate", default-features = false , branch = "polkadot-v0.9.26" }
+sc-service = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.26" }
 
 beefy-primitives = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 
 # Polkadot Runtimes
 polkadot-runtime = { path = "../../runtime/polkadot", optional = true }
-kusama-runtime = { path = "../../runtime/kusama", optional = true }
-westend-runtime = { path = "../../runtime/westend", optional = true }
-rococo-runtime = { path = "../../runtime/rococo", optional = true }
 
 polkadot-core-primitives = { path = "../../core-primitives" }
 polkadot-primitives = { path = "../../primitives" }
@@ -51,12 +48,6 @@ polkadot-runtime-common = { path = "../../runtime/common" }
 [features]
 default = ["polkadot"]
 polkadot = ["polkadot-runtime"]
-kusama = ["kusama-runtime"]
-rococo = ["rococo-runtime"]
-westend = ["westend-runtime"]
 runtime-metrics = [
-    "rococo-runtime/runtime-metrics",
-    "kusama-runtime/runtime-metrics",
-    "westend-runtime/runtime-metrics",
-    "polkadot-runtime/runtime-metrics",
+    "polkadot-runtime/runtime-metrics"
 ]

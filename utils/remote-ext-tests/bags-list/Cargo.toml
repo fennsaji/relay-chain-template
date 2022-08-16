@@ -6,11 +6,7 @@ edition = "2021"
 
 [dependencies]
 polkadot-runtime = { path = "../../../runtime/polkadot" }
-kusama-runtime = { path = "../../../runtime/kusama" }
-westend-runtime = { path = "../../../runtime/westend" }
 polkadot-runtime-constants = { path = "../../../runtime/polkadot/constants" }
-kusama-runtime-constants = { path = "../../../runtime/kusama/constants" }
-westend-runtime-constants = { path = "../../../runtime/westend/constants" }
 
 pallet-bags-list-remote-tests = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 sp-tracing = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }

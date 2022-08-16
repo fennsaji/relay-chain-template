@@ -44,9 +44,6 @@ pub type FullClient<RuntimeApi, ExecutorDispatch> =
 	sc_service::TFullClient<Block, RuntimeApi, NativeElseWasmExecutor<ExecutorDispatch>>;
 
 #[cfg(not(any(
-	feature = "rococo",
-	feature = "kusama",
-	feature = "westend",
 	feature = "polkadot"
 )))]
 compile_error!("at least one runtime feature must be enabled");
@@ -65,57 +62,6 @@ impl sc_executor::NativeExecutionDispatch for PolkadotExecutorDispatch {
 
 	fn native_version() -> sc_executor::NativeVersion {
 		polkadot_runtime::native_version()
-	}
-}
-
-#[cfg(feature = "kusama")]
-/// The native executor instance for Kusama.
-pub struct KusamaExecutorDispatch;
-
-#[cfg(feature = "kusama")]
-impl sc_executor::NativeExecutionDispatch for KusamaExecutorDispatch {
-	type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
-
-	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		kusama_runtime::api::dispatch(method, data)
-	}
-
-	fn native_version() -> sc_executor::NativeVersion {
-		kusama_runtime::native_version()
-	}
-}
-
-#[cfg(feature = "westend")]
-/// The native executor instance for Westend.
-pub struct WestendExecutorDispatch;
-
-#[cfg(feature = "westend")]
-impl sc_executor::NativeExecutionDispatch for WestendExecutorDispatch {
-	type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
-
-	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		westend_runtime::api::dispatch(method, data)
-	}
-
-	fn native_version() -> sc_executor::NativeVersion {
-		westend_runtime::native_version()
-	}
-}
-
-#[cfg(feature = "rococo")]
-/// The native executor instance for Rococo.
-pub struct RococoExecutorDispatch;
-
-#[cfg(feature = "rococo")]
-impl sc_executor::NativeExecutionDispatch for RococoExecutorDispatch {
-	type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
-
-	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		rococo_runtime::api::dispatch(method, data)
-	}
-
-	fn native_version() -> sc_executor::NativeVersion {
-		rococo_runtime::native_version()
 	}
 }
 
@@ -203,7 +149,7 @@ where
 
 /// Execute something with the client instance.
 ///
-/// As there exist multiple chains inside Polkadot, like Polkadot itself, Kusama, Westend etc,
+/// As there exist multiple chains inside Polkadot, like Polkadot itself,
 /// there can exist different kinds of client types. As these client types differ in the generics
 /// that are being used, we can not easily return them from a function. For returning them from a
 /// function there exists [`Client`]. However, the problem on how to use this client instance still
@@ -256,27 +202,6 @@ macro_rules! with_client {
 
 				$code
 			},
-			#[cfg(feature = "westend")]
-			Self::Westend($client) => {
-				#[allow(unused_imports)]
-				use westend_runtime as runtime;
-
-				$code
-			},
-			#[cfg(feature = "kusama")]
-			Self::Kusama($client) => {
-				#[allow(unused_imports)]
-				use kusama_runtime as runtime;
-
-				$code
-			},
-			#[cfg(feature = "rococo")]
-			Self::Rococo($client) => {
-				#[allow(unused_imports)]
-				use rococo_runtime as runtime;
-
-				$code
-			},
 		}
 	}
 }
@@ -288,12 +213,6 @@ macro_rules! with_client {
 pub enum Client {
 	#[cfg(feature = "polkadot")]
 	Polkadot(Arc<FullClient<polkadot_runtime::RuntimeApi, PolkadotExecutorDispatch>>),
-	#[cfg(feature = "westend")]
-	Westend(Arc<FullClient<westend_runtime::RuntimeApi, WestendExecutorDispatch>>),
-	#[cfg(feature = "kusama")]
-	Kusama(Arc<FullClient<kusama_runtime::RuntimeApi, KusamaExecutorDispatch>>),
-	#[cfg(feature = "rococo")]
-	Rococo(Arc<FullClient<rococo_runtime::RuntimeApi, RococoExecutorDispatch>>),
 }
 
 impl ClientHandle for Client {
@@ -698,169 +617,7 @@ impl BenchmarkCallSigner<polkadot_runtime::Call, sp_core::sr25519::Pair>
 	}
 }
 
-#[cfg(feature = "westend")]
-impl BenchmarkCallSigner<westend_runtime::Call, sp_core::sr25519::Pair>
-	for FullClient<westend_runtime::RuntimeApi, WestendExecutorDispatch>
-{
-	fn sign_call(
-		&self,
-		call: westend_runtime::Call,
-		nonce: u32,
-		current_block: u64,
-		period: u64,
-		genesis: H256,
-		acc: sp_core::sr25519::Pair,
-	) -> OpaqueExtrinsic {
-		use westend_runtime as runtime;
-
-		let extra: runtime::SignedExtra = (
-			frame_system::CheckNonZeroSender::<runtime::Runtime>::new(),
-			frame_system::CheckSpecVersion::<runtime::Runtime>::new(),
-			frame_system::CheckTxVersion::<runtime::Runtime>::new(),
-			frame_system::CheckGenesis::<runtime::Runtime>::new(),
-			frame_system::CheckMortality::<runtime::Runtime>::from(
-				sp_runtime::generic::Era::mortal(period, current_block),
-			),
-			frame_system::CheckNonce::<runtime::Runtime>::from(nonce),
-			frame_system::CheckWeight::<runtime::Runtime>::new(),
-			pallet_transaction_payment::ChargeTransactionPayment::<runtime::Runtime>::from(0),
-		);
-
-		let payload = runtime::SignedPayload::from_raw(
-			call.clone(),
-			extra.clone(),
-			(
-				(),
-				runtime::VERSION.spec_version,
-				runtime::VERSION.transaction_version,
-				genesis.clone(),
-				genesis,
-				(),
-				(),
-				(),
-			),
-		);
-
-		let signature = payload.using_encoded(|p| acc.sign(p));
-		runtime::UncheckedExtrinsic::new_signed(
-			call,
-			sp_runtime::AccountId32::from(acc.public()).into(),
-			polkadot_core_primitives::Signature::Sr25519(signature.clone()),
-			extra,
-		)
-		.into()
-	}
-}
-
-#[cfg(feature = "kusama")]
-impl BenchmarkCallSigner<kusama_runtime::Call, sp_core::sr25519::Pair>
-	for FullClient<kusama_runtime::RuntimeApi, KusamaExecutorDispatch>
-{
-	fn sign_call(
-		&self,
-		call: kusama_runtime::Call,
-		nonce: u32,
-		current_block: u64,
-		period: u64,
-		genesis: H256,
-		acc: sp_core::sr25519::Pair,
-	) -> OpaqueExtrinsic {
-		use kusama_runtime as runtime;
-
-		let extra: runtime::SignedExtra = (
-			frame_system::CheckNonZeroSender::<runtime::Runtime>::new(),
-			frame_system::CheckSpecVersion::<runtime::Runtime>::new(),
-			frame_system::CheckTxVersion::<runtime::Runtime>::new(),
-			frame_system::CheckGenesis::<runtime::Runtime>::new(),
-			frame_system::CheckMortality::<runtime::Runtime>::from(
-				sp_runtime::generic::Era::mortal(period, current_block),
-			),
-			frame_system::CheckNonce::<runtime::Runtime>::from(nonce),
-			frame_system::CheckWeight::<runtime::Runtime>::new(),
-			pallet_transaction_payment::ChargeTransactionPayment::<runtime::Runtime>::from(0),
-		);
-
-		let payload = runtime::SignedPayload::from_raw(
-			call.clone(),
-			extra.clone(),
-			(
-				(),
-				runtime::VERSION.spec_version,
-				runtime::VERSION.transaction_version,
-				genesis.clone(),
-				genesis,
-				(),
-				(),
-				(),
-			),
-		);
-
-		let signature = payload.using_encoded(|p| acc.sign(p));
-		runtime::UncheckedExtrinsic::new_signed(
-			call,
-			sp_runtime::AccountId32::from(acc.public()).into(),
-			polkadot_core_primitives::Signature::Sr25519(signature.clone()),
-			extra,
-		)
-		.into()
-	}
-}
-
-#[cfg(feature = "rococo")]
-impl BenchmarkCallSigner<rococo_runtime::Call, sp_core::sr25519::Pair>
-	for FullClient<rococo_runtime::RuntimeApi, RococoExecutorDispatch>
-{
-	fn sign_call(
-		&self,
-		call: rococo_runtime::Call,
-		nonce: u32,
-		current_block: u64,
-		period: u64,
-		genesis: H256,
-		acc: sp_core::sr25519::Pair,
-	) -> OpaqueExtrinsic {
-		use rococo_runtime as runtime;
-
-		let extra: runtime::SignedExtra = (
-			frame_system::CheckNonZeroSender::<runtime::Runtime>::new(),
-			frame_system::CheckSpecVersion::<runtime::Runtime>::new(),
-			frame_system::CheckTxVersion::<runtime::Runtime>::new(),
-			frame_system::CheckGenesis::<runtime::Runtime>::new(),
-			frame_system::CheckMortality::<runtime::Runtime>::from(
-				sp_runtime::generic::Era::mortal(period, current_block),
-			),
-			frame_system::CheckNonce::<runtime::Runtime>::from(nonce),
-			frame_system::CheckWeight::<runtime::Runtime>::new(),
-			pallet_transaction_payment::ChargeTransactionPayment::<runtime::Runtime>::from(0),
-		);
-
-		let payload = runtime::SignedPayload::from_raw(
-			call.clone(),
-			extra.clone(),
-			(
-				(),
-				runtime::VERSION.spec_version,
-				runtime::VERSION.transaction_version,
-				genesis.clone(),
-				genesis,
-				(),
-				(),
-				(),
-			),
-		);
-
-		let signature = payload.using_encoded(|p| acc.sign(p));
-		runtime::UncheckedExtrinsic::new_signed(
-			call,
-			sp_runtime::AccountId32::from(acc.public()).into(),
-			polkadot_core_primitives::Signature::Sr25519(signature.clone()),
-			extra,
-		)
-		.into()
-	}
-}
-
-/// Generates inherent data for benchmarking Polkadot, Kusama, Westend and Rococo.
+/// Generates inherent data for benchmarking Polkadot.
 ///
 /// Not to be used outside of benchmarking since it returns mocked values.
 pub fn benchmark_inherent_data(
