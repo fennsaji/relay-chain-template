@@ -33,7 +33,6 @@ members = [
 	"runtime/test-runtime",
 	"runtime/test-runtime/constants",
 	"node/client",
-	"node/primitives",
 	"node/service",
 	"node/test/client",
 	"node/test/performance-test",

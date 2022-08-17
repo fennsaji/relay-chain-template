@@ -1,5 +1,8 @@
 # Relay Chain Template
 
+Polkadot version v0.9.26
+Rust version: 1.64-nightly
+
 ### Build from Source
 
 If you'd like to build from source, first install Rust. You may need to add Cargo's bin directory

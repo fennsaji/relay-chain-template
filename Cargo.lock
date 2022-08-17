@@ -6989,28 +6989,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "relay-template-node-primitives"
-version = "0.9.26"
-dependencies = [
- "bounded-vec",
- "futures",
- "parity-scale-codec",
- "polkadot-erasure-coding",
- "polkadot-parachain",
- "polkadot-primitives",
- "schnorrkel",
- "serde",
- "sp-application-crypto",
- "sp-consensus-babe",
- "sp-consensus-vrf",
- "sp-core",
- "sp-keystore",
- "sp-maybe-compressed-blob",
- "thiserror",
- "zstd",
-]
-
-[[package]]
 name = "relay-template-performance-test"
 version = "0.9.26"
 dependencies = [
@@ -7018,8 +6996,8 @@ dependencies = [
  "log",
  "polkadot-erasure-coding",
  "polkadot-node-core-pvf",
+ "polkadot-node-primitives",
  "quote",
- "relay-template-node-primitives",
  "relay-template-runtime",
  "thiserror",
 ]
@@ -7199,6 +7177,7 @@ dependencies = [
  "polkadot-node-core-pvf-checker",
  "polkadot-node-core-runtime-api",
  "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
  "polkadot-node-subsystem",
  "polkadot-node-subsystem-test-helpers",
  "polkadot-node-subsystem-types",
@@ -7209,7 +7188,6 @@ dependencies = [
  "polkadot-runtime-parachains",
  "polkadot-statement-distribution",
  "relay-template-client",
- "relay-template-node-primitives",
  "relay-template-rpc",
  "relay-template-runtime",
  "relay-template-runtime-constants",
@@ -7362,6 +7340,7 @@ dependencies = [
  "pallet-balances",
  "pallet-staking",
  "pallet-transaction-payment",
+ "polkadot-node-primitives",
  "polkadot-node-subsystem",
  "polkadot-overseer",
  "polkadot-parachain",
@@ -7370,7 +7349,6 @@ dependencies = [
  "polkadot-runtime-common",
  "polkadot-runtime-parachains",
  "rand 0.8.5",
- "relay-template-node-primitives",
  "relay-template-service",
  "relay-template-test-runtime",
  "sc-authority-discovery",

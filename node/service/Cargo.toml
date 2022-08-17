@@ -79,7 +79,7 @@ polkadot-overseer = { git = "https://github.com/paritytech/polkadot", tag = "v0.
 relay-template-client = { path = "../client", default-features = false, optional = true }
 polkadot-parachain = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
-relay-template-node-primitives = { path = "../primitives" }
+polkadot-node-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 relay-template-rpc = { path = "../../rpc" }
 polkadot-node-subsystem = {git = "https://github.com/paritytech/polkadot", tag = "v0.9.26"  }
 polkadot-node-subsystem-util = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }

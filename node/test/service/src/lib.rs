@@ -22,7 +22,7 @@ pub mod chain_spec;
 
 pub use chain_spec::*;
 use futures::future::Future;
-use relay_template_node_primitives::{CollationGenerationConfig, CollatorFn};
+use polkadot_node_primitives::{CollationGenerationConfig, CollatorFn};
 use polkadot_node_subsystem::messages::{CollationGenerationMessage, CollatorProtocolMessage};
 use polkadot_overseer::Handle;
 use polkadot_primitives::v2::{Balance, CollatorPair, HeadData, Id as ParaId, ValidationCode};
