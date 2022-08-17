@@ -8,7 +8,7 @@ edition = "2021"
 sp-std = { package = "sp-std", git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.26" }
 sp-tracing = { git = "https://github.com/paritytech/substrate", default-features = false , branch = "polkadot-v0.9.26" }
 parity-scale-codec = { version = "3.1.5", default-features = false }
-primitives = { package = "polkadot-primitives", path = "../../primitives", default-features = false }
+primitives = { package = "polkadot-primitives", git = "https://github.com/paritytech/polkadot", tag = "v0.9.26", default-features = false }
 
 bs58 = { version = "0.4.0", default-features = false, features = ["alloc"] }
 
