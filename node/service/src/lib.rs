@@ -80,12 +80,12 @@ use telemetry::TelemetryWorker;
 use telemetry::{Telemetry, TelemetryWorkerHandle};
 
 #[cfg(feature = "polkadot-native")]
-pub use polkadot_client::PolkadotExecutorDispatch;
+pub use relay_template_client::PolkadotExecutorDispatch;
 
 pub use chain_spec::{PolkadotChainSpec};
 pub use consensus_common::{block_validation::Chain, Proposal, SelectChain};
 #[cfg(feature = "full-node")]
-pub use polkadot_client::{
+pub use relay_template_client::{
 	AbstractClient, Client, ClientHandle, ExecuteWithClient, FullBackend, FullClient,
 	RuntimeApiCollection,
 };
@@ -108,7 +108,7 @@ pub use sp_runtime::{
 };
 
 #[cfg(feature = "polkadot-native")]
-pub use polkadot_runtime;
+pub use relay_template_runtime;
 /// The maximum number of active leaves we forward to the [`Overseer`] on startup.
 #[cfg(any(test, feature = "full-node"))]
 const MAX_ACTIVE_LEAVES: usize = 4;
@@ -401,9 +401,9 @@ fn new_partial<RuntimeApi, ExecutorDispatch, ChainSelection>(
 		sc_transaction_pool::FullPool<Block, FullClient<RuntimeApi, ExecutorDispatch>>,
 		(
 			impl Fn(
-				polkadot_rpc::DenyUnsafe,
-				polkadot_rpc::SubscriptionTaskExecutor,
-			) -> Result<polkadot_rpc::RpcExtension, SubstrateServiceError>,
+				relay_template_rpc::DenyUnsafe,
+				relay_template_rpc::SubscriptionTaskExecutor,
+			) -> Result<relay_template_rpc::RpcExtension, SubstrateServiceError>,
 			(
 				babe::BabeBlockImport<
 					Block,
@@ -507,34 +507,34 @@ where
 		let backend = backend.clone();
 
 		move |deny_unsafe,
-		      subscription_executor: polkadot_rpc::SubscriptionTaskExecutor|
-		      -> Result<polkadot_rpc::RpcExtension, service::Error> {
-			let deps = polkadot_rpc::FullDeps {
+		      subscription_executor: relay_template_rpc::SubscriptionTaskExecutor|
+		      -> Result<relay_template_rpc::RpcExtension, service::Error> {
+			let deps = relay_template_rpc::FullDeps {
 				client: client.clone(),
 				pool: transaction_pool.clone(),
 				select_chain: select_chain.clone(),
 				chain_spec: chain_spec.cloned_box(),
 				deny_unsafe,
-				babe: polkadot_rpc::BabeDeps {
+				babe: relay_template_rpc::BabeDeps {
 					babe_config: babe_config.clone(),
 					shared_epoch_changes: shared_epoch_changes.clone(),
 					keystore: keystore.clone(),
 				},
-				grandpa: polkadot_rpc::GrandpaDeps {
+				grandpa: relay_template_rpc::GrandpaDeps {
 					shared_voter_state: shared_voter_state.clone(),
 					shared_authority_set: shared_authority_set.clone(),
 					justification_stream: justification_stream.clone(),
 					subscription_executor: subscription_executor.clone(),
 					finality_provider: finality_proof_provider.clone(),
 				},
-				beefy: polkadot_rpc::BeefyDeps {
+				beefy: relay_template_rpc::BeefyDeps {
 					beefy_commitment_stream: beefy_commitment_stream.clone(),
 					beefy_best_block_stream: beefy_best_block_stream.clone(),
 					subscription_executor,
 				},
 			};
 
-			polkadot_rpc::create_full(deps, backend.clone()).map_err(Into::into)
+			relay_template_rpc::create_full(deps, backend.clone()).map_err(Into::into)
 		}
 	};
 
@@ -1220,7 +1220,7 @@ pub fn new_chain_ops(
 
 	#[cfg(feature = "polkadot-native")]
 	{
-		return chain_ops!(config, jaeger_agent, telemetry_worker_handle; polkadot_runtime, PolkadotExecutorDispatch, Polkadot)
+		return chain_ops!(config, jaeger_agent, telemetry_worker_handle; relay_template_runtime, PolkadotExecutorDispatch, Polkadot)
 	}
 	#[cfg(not(feature = "polkadot-native"))]
 	Err(Error::NoRuntime)
@@ -1250,7 +1250,7 @@ pub fn build_full(
 
 	#[cfg(feature = "polkadot-native")]
 	{
-		return new_full::<polkadot_runtime::RuntimeApi, PolkadotExecutorDispatch, _>(
+		return new_full::<relay_template_runtime::RuntimeApi, PolkadotExecutorDispatch, _>(
 			config,
 			is_collator,
 			grandpa_pause,
@@ -1358,7 +1358,7 @@ impl ExecuteWithClient for RevertConsensus {
 		<Api as sp_api::ApiExt<Block>>::StateBackend: sp_api::StateBackend<BlakeTwo256>,
 		Backend: sc_client_api::Backend<Block> + 'static,
 		Backend::State: sp_api::StateBackend<BlakeTwo256>,
-		Api: polkadot_client::RuntimeApiCollection<StateBackend = Backend::State>,
+		Api: relay_template_client::RuntimeApiCollection<StateBackend = Backend::State>,
 		Client: AbstractClient<Block, Backend, Api = Api> + 'static,
 	{
 		// Revert consensus-related components.

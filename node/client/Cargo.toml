@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-client"
+name = "relay-template-client"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
@@ -38,7 +38,7 @@ sc-service = { git = "https://github.com/paritytech/substrate", default-features
 beefy-primitives = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 
 # Polkadot Runtimes
-polkadot-runtime = { path = "../../runtime/polkadot", optional = true }
+relay-template-runtime = { path = "../../runtime/relay-template", optional = true }
 
 polkadot-core-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
@@ -47,7 +47,7 @@ polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", tag 
 
 [features]
 default = ["polkadot"]
-polkadot = ["polkadot-runtime"]
+polkadot = ["relay-template-runtime"]
 runtime-metrics = [
-    "polkadot-runtime/runtime-metrics"
+    "relay-template-runtime/runtime-metrics"
 ]

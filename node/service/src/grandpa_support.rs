@@ -112,7 +112,7 @@ where
 mod tests {
 	use consensus_common::BlockOrigin;
 	use grandpa::VotingRule;
-	use polkadot_test_client::{
+	use relay_template_test_client::{
 		ClientBlockImportExt, DefaultTestClientBuilderExt, InitPolkadotBlockBuilder,
 		TestClientBuilder, TestClientBuilderExt,
 	};

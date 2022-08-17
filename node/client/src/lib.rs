@@ -57,11 +57,11 @@ impl sc_executor::NativeExecutionDispatch for PolkadotExecutorDispatch {
 	type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		polkadot_runtime::api::dispatch(method, data)
+		relay_template_runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		polkadot_runtime::native_version()
+		relay_template_runtime::native_version()
 	}
 }
 
@@ -198,7 +198,7 @@ macro_rules! with_client {
 			#[cfg(feature = "polkadot")]
 			Self::Polkadot($client) => {
 				#[allow(unused_imports)]
-				use polkadot_runtime as runtime;
+				use relay_template_runtime as runtime;
 
 				$code
 			},
@@ -212,7 +212,7 @@ macro_rules! with_client {
 #[derive(Clone)]
 pub enum Client {
 	#[cfg(feature = "polkadot")]
-	Polkadot(Arc<FullClient<polkadot_runtime::RuntimeApi, PolkadotExecutorDispatch>>),
+	Polkadot(Arc<FullClient<relay_template_runtime::RuntimeApi, PolkadotExecutorDispatch>>),
 }
 
 impl ClientHandle for Client {
@@ -562,19 +562,19 @@ trait BenchmarkCallSigner<Call: Encode + Clone, Signer: Pair> {
 }
 
 #[cfg(feature = "polkadot")]
-impl BenchmarkCallSigner<polkadot_runtime::Call, sp_core::sr25519::Pair>
-	for FullClient<polkadot_runtime::RuntimeApi, PolkadotExecutorDispatch>
+impl BenchmarkCallSigner<relay_template_runtime::Call, sp_core::sr25519::Pair>
+	for FullClient<relay_template_runtime::RuntimeApi, PolkadotExecutorDispatch>
 {
 	fn sign_call(
 		&self,
-		call: polkadot_runtime::Call,
+		call: relay_template_runtime::Call,
 		nonce: u32,
 		current_block: u64,
 		period: u64,
 		genesis: H256,
 		acc: sp_core::sr25519::Pair,
 	) -> OpaqueExtrinsic {
-		use polkadot_runtime as runtime;
+		use relay_template_runtime as runtime;
 
 		let extra: runtime::SignedExtra = (
 			frame_system::CheckNonZeroSender::<runtime::Runtime>::new(),

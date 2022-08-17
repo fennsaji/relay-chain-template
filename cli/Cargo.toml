@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-cli"
+name = "relay-template-cli"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 description = "Polkadot Relay-chain Client Node"
@@ -20,10 +20,10 @@ thiserror = "1.0.31"
 futures = "0.3.21"
 pyro = { package = "pyroscope", version = "0.3.1", optional = true }
 
-service = { package = "polkadot-service", path = "../node/service", default-features = false, optional = true }
-polkadot-client = { path = "../node/client", optional = true }
+service = { package = "relay-template-service", path = "../node/service", default-features = false, optional = true }
+relay-template-client = { path = "../node/client", optional = true }
 polkadot-node-core-pvf = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26", optional = true }
-polkadot-performance-test = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26", optional = true }
+relay-template-performance-test = { path = "../node/test/performance-test", optional = true }
 
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.26" }
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", optional = true, branch = "polkadot-v0.9.26" }
@@ -52,9 +52,9 @@ cli = [
 	"sc-tracing",
 	"frame-benchmarking-cli",
 	"try-runtime-cli",
-	"polkadot-client",
+	"relay-template-client",
 	"polkadot-node-core-pvf",
-	"polkadot-performance-test",
+	"relay-template-performance-test",
 ]
 runtime-benchmarks = ["service/runtime-benchmarks", "polkadot-node-metrics/runtime-benchmarks"]
 trie-memory-tracker = ["sp-trie/memory-tracker"]

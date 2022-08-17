@@ -24,7 +24,7 @@ use sp_core::crypto::Ss58AddressFormatRegistry;
 use std::net::ToSocketAddrs;
 
 pub use crate::{error::Error, service::BlockId};
-pub use polkadot_performance_test::PerfCheckError;
+pub use relay_template_performance_test::PerfCheckError;
 
 impl From<String> for Error {
 	fn from(s: String) -> Self {
@@ -103,7 +103,7 @@ impl SubstrateCli for Cli {
 	fn native_runtime_version(spec: &Box<dyn service::ChainSpec>) -> &'static RuntimeVersion {
 		#[cfg(feature = "polkadot-native")]
 		{
-			return &service::polkadot_runtime::VERSION
+			return &service::relay_template_runtime::VERSION
 		}
 	}
 }
@@ -125,7 +125,7 @@ fn ensure_dev(spec: &Box<dyn service::ChainSpec>) -> std::result::Result<(), Str
 	}
 }
 
-/// Unwraps a [`polkadot_client::Client`] into the concrete runtime client.
+/// Unwraps a [`relay_template_client::Client`] into the concrete runtime client.
 macro_rules! unwrap_client {
 	(
 		$client:ident,
@@ -133,7 +133,7 @@ macro_rules! unwrap_client {
 	) => {
 		match $client.as_ref() {
 			#[cfg(feature = "polkadot-native")]
-			polkadot_client::Client::Polkadot($client) => $code,
+			relay_template_client::Client::Polkadot($client) => $code,
 			#[allow(unreachable_patterns)]
 			_ => Err(Error::CommandNotImplemented),
 		}
@@ -404,7 +404,7 @@ pub fn run() -> Result<()> {
 				BenchmarkCmd::Overhead(cmd) => {
 					ensure_dev(chain_spec).map_err(Error::Other)?;
 					runner.sync_run(|mut config| {
-						use polkadot_client::benchmark_inherent_data;
+						use relay_template_client::benchmark_inherent_data;
 						let (client, _, _, _) = service::new_chain_ops(&mut config, None)?;
 						let wrapped = client.clone();
 
@@ -427,7 +427,7 @@ pub fn run() -> Result<()> {
 					#[cfg(feature = "polkadot-native")]
 					{
 						return Ok(runner.sync_run(|config| {
-							cmd.run::<service::polkadot_runtime::Block, service::PolkadotExecutorDispatch>(config)
+							cmd.run::<service::relay_template_runtime::Block, service::PolkadotExecutorDispatch>(config)
 								.map_err(|e| Error::SubstrateCli(e))
 						})?)
 					}
@@ -472,7 +472,7 @@ pub fn run() -> Result<()> {
 			{
 				return runner.async_run(|config| {
 					Ok((
-						cmd.run::<service::polkadot_runtime::Block, service::PolkadotExecutorDispatch>(
+						cmd.run::<service::relay_template_runtime::Block, service::PolkadotExecutorDispatch>(
 							config,
 						)
 						.map_err(Error::SubstrateCli),

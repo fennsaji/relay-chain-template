@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-service"
+name = "relay-template-service"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
@@ -76,11 +76,11 @@ lru = "0.7"
 # Polkadot
 polkadot-node-core-parachains-inherent = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-overseer = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
-polkadot-client = { path = "../client", default-features = false, optional = true }
+relay-template-client = { path = "../client", default-features = false, optional = true }
 polkadot-parachain = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
-polkadot-node-primitives = { path = "../primitives" }
-polkadot-rpc = { path = "../../rpc" }
+relay-template-node-primitives = { path = "../primitives" }
+relay-template-rpc = { path = "../../rpc" }
 polkadot-node-subsystem = {git = "https://github.com/paritytech/polkadot", tag = "v0.9.26"  }
 polkadot-node-subsystem-util = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-node-subsystem-types = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
@@ -88,10 +88,10 @@ polkadot-runtime-parachains = { git = "https://github.com/paritytech/polkadot", 
 polkadot-node-network-protocol = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 
 # Polkadot Runtime Constants
-polkadot-runtime-constants = { path = "../../runtime/polkadot/constants", optional = true }
+relay-template-runtime-constants = { path = "../../runtime/relay-template/constants", optional = true }
 
 # Polkadot Runtimes
-polkadot-runtime = { path = "../../runtime/polkadot", optional = true }
+relay-template-runtime = { path = "../../runtime/relay-template", optional = true }
 
 # Polkadot Subsystems
 polkadot-approval-distribution = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26", optional = true }
@@ -117,7 +117,7 @@ polkadot-node-core-runtime-api = { git = "https://github.com/paritytech/polkadot
 polkadot-statement-distribution = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26", optional = true }
 
 [dev-dependencies]
-polkadot-test-client = { path = "../test/client" }
+relay-template-test-client = { path = "../test/client" }
 polkadot-node-subsystem-test-helpers = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 env_logger = "0.9.0"
 log = "0.4.17"
@@ -136,7 +136,7 @@ full-node = [
 	"polkadot-availability-bitfield-distribution",
 	"polkadot-availability-distribution",
 	"polkadot-availability-recovery",
-	"polkadot-client",
+	"relay-template-client",
 	"polkadot-collator-protocol",
 	"polkadot-dispute-distribution",
 	"polkadot-gossip-support",
@@ -160,22 +160,22 @@ full-node = [
 # Configure the native runtimes to use. Polkadot is enabled by default.
 #
 # Validators require the native runtime currently
-polkadot-native = [ "polkadot-runtime", "polkadot-runtime-constants", "polkadot-client/polkadot" ]
+polkadot-native = [ "relay-template-runtime", "relay-template-runtime-constants", "relay-template-client/polkadot" ]
 
 runtime-benchmarks = [
-	"polkadot-runtime/runtime-benchmarks",
+	"relay-template-runtime/runtime-benchmarks",
 ]
 try-runtime = [
-	"polkadot-runtime/try-runtime",
+	"relay-template-runtime/try-runtime",
 ]
 fast-runtime = [
-	"polkadot-runtime/fast-runtime",
+	"relay-template-runtime/fast-runtime",
 ]
 
 malus = ["full-node"]
 runtime-metrics = [
-	"polkadot-client/runtime-metrics",
-	"polkadot-runtime/runtime-metrics",
+	"relay-template-client/runtime-metrics",
+	"relay-template-runtime/runtime-metrics",
 	"polkadot-runtime-parachains/runtime-metrics"
 ]
 

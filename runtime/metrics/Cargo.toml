@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-runtime-metrics"
+name = "relay-template-runtime-metrics"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"

@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-performance-test"
+name = "relay-template-performance-test"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
@@ -12,9 +12,9 @@ log = "0.4"
 
 polkadot-node-core-pvf = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 polkadot-erasure-coding = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
-polkadot-node-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
+relay-template-node-primitives = { path = "../../primitives" }
 
-polkadot-runtime = { path = "../../../runtime/polkadot" }
+relay-template-runtime = { path = "../../../runtime/relay-template" }
 
 [[bin]]
 name = "gen-ref-constants"

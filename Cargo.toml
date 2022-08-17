@@ -1,9 +1,9 @@
 [[bin]]
-name = "polkadot"
+name = "relay-template"
 path = "src/main.rs"
 
 [package]
-name = "polkadot"
+name = "relay-template"
 description = "Implementation of a `https://polkadot.network` node in Rust based on the Substrate framework."
 license = "GPL-3.0-only"
 version = "0.9.26"
@@ -13,7 +13,7 @@ rust-version = "1.57.0" # custom profiles
 readme = "README.md"
 
 [dependencies]
-polkadot-cli = { path = "cli"  }
+relay-template-cli = { path = "cli"  }
 color-eyre = { version = "0.6.1", default-features = false }
 parity-util-mem = { version = "0.11.0", default-features = false, features = ["jemalloc-global"] }
 
@@ -29,8 +29,8 @@ polkadot-core-primitives = { git = "https://github.com/paritytech/polkadot", tag
 members = [
 	"cli",
 	"runtime/metrics",
-	"runtime/polkadot",
-	"runtime/polkadot/constants",
+	"runtime/relay-template",
+	"runtime/relay-template/constants",
 	"runtime/test-runtime",
 	"runtime/test-runtime/constants",
 	"node/client",
@@ -122,16 +122,16 @@ debug-assertions = true
 overflow-checks = true
 
 [features]
-runtime-benchmarks= [ "polkadot-cli/runtime-benchmarks" ]
-try-runtime = [ "polkadot-cli/try-runtime" ]
-fast-runtime = [ "polkadot-cli/fast-runtime" ]
-runtime-metrics = [ "polkadot-cli/runtime-metrics" ]
-pyroscope = ["polkadot-cli/pyroscope"]
-staging-client = ["polkadot-cli/staging-client"]
+runtime-benchmarks= [ "relay-template-cli/runtime-benchmarks" ]
+try-runtime = [ "relay-template-cli/try-runtime" ]
+fast-runtime = [ "relay-template-cli/fast-runtime" ]
+runtime-metrics = [ "relay-template-cli/runtime-metrics" ]
+pyroscope = ["relay-template-cli/pyroscope"]
+staging-client = ["relay-template-cli/staging-client"]
 
 # Configuration for building a .deb package - for use with `cargo-deb`
 [package.metadata.deb]
-name = "polkadot"
+name = "relay-template"
 extended-description = "Implementation of a https://polkadot.network node in Rust based on the Substrate framework."
 section = "misc"
 maintainer = "martin@parity.io"

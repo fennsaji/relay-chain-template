@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-rpc"
+name = "relay-template-rpc"
 version = "0.9.26"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
