@@ -20,7 +20,7 @@ polkadot-rpc = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26"
 polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
 relay-template-service = { path = "../../service" }
 polkadot-node-subsystem = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
-polkadot-node-primitives = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }
+relay-template-node-primitives = { path = "../../primitives" }
 relay-template-test-runtime = { path = "../../../runtime/test-runtime" }
 test-runtime-constants = { path = "../../../runtime/test-runtime/constants" }
 polkadot-runtime-parachains = { git = "https://github.com/paritytech/polkadot", tag = "v0.9.26" }

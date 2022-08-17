@@ -28,7 +28,6 @@ polkadot-core-primitives = { git = "https://github.com/paritytech/polkadot", tag
 [workspace]
 members = [
 	"cli",
-	"runtime/metrics",
 	"runtime/relay-template",
 	"runtime/relay-template/constants",
 	"runtime/test-runtime",

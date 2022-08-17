@@ -7157,17 +7157,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "relay-template-runtime-metrics"
-version = "0.9.26"
-dependencies = [
- "bs58",
- "parity-scale-codec",
- "polkadot-primitives",
- "sp-std",
- "sp-tracing",
-]
-
-[[package]]
 name = "relay-template-service"
 version = "0.9.26"
 dependencies = [
@@ -7373,7 +7362,6 @@ dependencies = [
  "pallet-balances",
  "pallet-staking",
  "pallet-transaction-payment",
- "polkadot-node-primitives",
  "polkadot-node-subsystem",
  "polkadot-overseer",
  "polkadot-parachain",
@@ -7382,6 +7370,7 @@ dependencies = [
  "polkadot-runtime-common",
  "polkadot-runtime-parachains",
  "rand 0.8.5",
+ "relay-template-node-primitives",
  "relay-template-service",
  "relay-template-test-runtime",
  "sc-authority-discovery",
