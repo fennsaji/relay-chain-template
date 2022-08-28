@@ -1,7 +1,7 @@
 [package]
 name = "relay-template-cli"
 version = "0.9.26"
-authors = ["Parity Technologies <admin@parity.io>"]
+authors = ["Fenn Saji <fennsaji@gmail.com>"]
 description = "Polkadot Relay-chain Client Node"
 edition = "2021"
 
